@@ -42,18 +42,27 @@ function zoom(event) {
 const scrollX = document.getElementById("scrollX-container");
 const scrollY = document.getElementById("scrollY-container");
 
-scrollX.scrollLeft = c.width/2;
-scrollY.scrollTop = c.height/2;
+scrollX.scrollLeft = c.width / 2;
+scrollY.scrollTop = c.height / 2;
 
 scrollX.onscroll = (event) => {
-    offsetX = scrollX.scrollLeft - c.width/2;
+    if (!scrolling) {
+        offsetX = -scrollX.scrollLeft + c.width/2;
+    }
+
+    drawGrid();
+}
+
+scrollY.onscroll = (event) => {
+    if (!scrolling) {
+        offsetY = -scrollY.scrollTop + c.height/2;
+    }
 
     drawGrid();
 }
 
 function offset(event) {
     offsetX -= event.deltaX * moveScale;
-    console.log(c.width/2 - offsetX * 16);
     scrollX.scrollLeft = c.width/2 - offsetX * 16;
 
     offsetY -= event.deltaY * moveScale;
@@ -66,11 +75,23 @@ let scale = 1;
 let gridScale = 1.25;
 let moveScale = 2.85;
 
+let scrolling = false;
+
 window.localStorage.setItem("scale", scale);
 window.localStorage.setItem("gridScale", gridScale);
 
+let wheelEventEndTimeout;
+
 c.onwheel = (e) => {
     e.preventDefault();
+
+    scrolling = true;
+
+    clearTimeout(wheelEventEndTimeout);
+    wheelEventEndTimeout = setTimeout(() => {
+        scrolling = false;
+    }, 100);
+
     if (e.ctrlKey) {
         zoom(e);
     } else {

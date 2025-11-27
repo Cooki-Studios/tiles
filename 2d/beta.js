@@ -1390,13 +1390,13 @@ function keydown(event) {
             Math.ceil(canvas.height/tileScale.value)*(document.getElementById('scrolly-container').scrollTop/document.getElementById('scrolly-container').clientHeight),
             Math.ceil(canvas.width/tileScale.value),Math.ceil(canvas.height/tileScale.value),JSON.parse(tileScale.value),gridToggle.checked,true
         );
-    } else if (event.metaKey && event.key == 'z' && event.shiftKey) {
+    } else if (navigator.platform.toUpperCase().indexOf('WIN') ==-1 && event.metaKey && event.shiftKey || (navigator.platform.toUpperCase().indexOf('WIN')!==-1 && event.ctrlKey) && event.key == 'z' && event.shiftKey) {
         // Stop default result of the command
         event.preventDefault();
 
         // Redo the last action (WIP)
         console.log("redo");
-    } else if (event.metaKey && event.key == 'z' || event.ctrlKey && event.key == 'y') {
+    } else if (navigator.platform.toUpperCase().indexOf('WIN') ==-1 && event.metaKey || (navigator.platform.toUpperCase().indexOf('WIN')!==-1 && event.ctrlKey) && event.key == 'z' || navigator.platform.toUpperCase().indexOf('WIN') ==-1 && event.metaKey || (navigator.platform.toUpperCase().indexOf('WIN')!==-1 && event.ctrlKey) && event.key == 'y') {
         // Stop default result of the command
         event.preventDefault();
 
